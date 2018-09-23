@@ -1,0 +1,11 @@
+{
+    "IsEncrypted": false,
+    "Values": {
+        "AzureWebJobsStorage": "!!!!!!!!!!!!!!!!!!!!!!!!ENTER_STORAGE_CONNECTION_STRING!!!!!!!!!!!!!!!!!!!!!!!!",
+        "AzureWebJobsDashboard": "!!!!!!!!!!!!!!!!!!!!!!!!ENTER_STORAGE_CONNECTION_STRING!!!!!!!!!!!!!!!!!!!!!!!!",
+        "registrationstorage_STORAGE": "!!!!!!!!!!!!!!!!!!!!!!!!ENTER_STORAGE_CONNECTION_STRING!!!!!!!!!!!!!!!!!!!!!!!!",
+        "sendGridApiKey": "!!!!!!!!!!!!!!!!!!!!!!!!ENTER_SENDGRID_APIKEY!!!!!!!!!!!!!!!!!!!!!!!!",
+        "twilioAccountSid": "!!!!!!!!!!!!!!!!!!!!!!!!ENTER_TWILIO_ACCOUNTSID!!!!!!!!!!!!!!!!!!!!!!!!",
+        "twilioAuthToken": "!!!!!!!!!!!!!!!!!!!!!!!!ENTER_TWILIO_AUTHTOKEN!!!!!!!!!!!!!!!!!!!!!!!!"
+    }
+}
