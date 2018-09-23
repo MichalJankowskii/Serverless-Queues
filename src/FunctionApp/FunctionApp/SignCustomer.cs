@@ -10,7 +10,8 @@ namespace FunctionApp
     using Microsoft.Azure.WebJobs.Extensions.Http;
     using Microsoft.WindowsAzure.Storage.Table;
     using SendGrid.Helpers.Mail;
-    using Twilio;
+    using Twilio.Rest.Api.V2010.Account;
+    using Twilio.Types;
     using Validators;
 
     public static class SignCustomer
@@ -24,10 +25,9 @@ namespace FunctionApp
             [TwilioSms(
                 AccountSidSetting = "twilioAccountSid",
                 AuthTokenSetting = "twilioAuthToken",
-                To = "!!!!!!!!!!!!!!!!!!!!!!!!ENTER_YOUR_PHONE_NUMBER!!!!!!!!!!!!!!!!!!!!!!!!",
                 From = "!!!!!!!!!!!!!!!!!!!!!!!!ENTER_FROM_PHONE_NUMBER - PROVIDED BY TWILIO!!!!!!!!!!!!!!!!!!!!!!!!",
                 Body = "New customer {Name} {Surname}!")]
-            out SMSMessage smsMessage,
+            out CreateMessageOptions smsMessageOptions,
             [SendGrid(
                 ApiKey = "sendGridApiKey",
                 To = "{Email}",
@@ -35,10 +35,10 @@ namespace FunctionApp
                 Text = "Hi {Name}, Thank you for registering!!!!",
                 From = "!!!!!!!!!!!!!!!!!!!!!!!!ENTER_FROM_EMAIL_ADDRESS!!!!!!!!!!!!!!!!!!!!!!!!"
             )]
-            out Mail emailMessage)
+            out SendGridMessage emailMessage)
         {
-            smsMessage = new SMSMessage();
-            emailMessage = new Mail();
+            smsMessageOptions = new CreateMessageOptions(new PhoneNumber("!!!!!!!!!!!!!!!!!!!!!!!!ENTER_YOUR_PHONE_NUMBER!!!!!!!!!!!!!!!!!!!!!!!!"));
+            emailMessage = new SendGridMessage();
 
             var validator = new CustomerValidator();
             ValidationResult results = validator.Validate(customer);
@@ -57,7 +57,7 @@ namespace FunctionApp
             customer.RowKey = Guid.NewGuid().ToString();
 
             TableOperation insertOperation = TableOperation.Insert(customer);
-            customersTable.Execute(insertOperation);
+            customersTable.ExecuteAsync(insertOperation).Wait();
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
